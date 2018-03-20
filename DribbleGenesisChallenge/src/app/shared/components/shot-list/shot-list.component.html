@@ -1,5 +1,8 @@
 ﻿<div class="container">
   <div class="row">
-    <shot *ngFor="let shot of shots" [shot]="shot"></shot>
+    <shot *ngFor="let shot of shots; let i = index" 
+          [shot]="shot" 
+          (mouseenter)="showDetails(i)" 
+          (mouseleave)="hideDetails(i)"></shot>
   </div>
 </div>

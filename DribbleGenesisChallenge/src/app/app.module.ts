@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { ShotListComponent } from './shared/components/shot-list/shot-list.component';
 import { ShotComponent } from './shared/components/shot/shot.component';
 
+import { ShotService } from './shared/services/shot.service';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +18,7 @@ import { ShotComponent } from './shared/components/shot/shot.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [ShotService],
   bootstrap: [AppComponent]
 })
 

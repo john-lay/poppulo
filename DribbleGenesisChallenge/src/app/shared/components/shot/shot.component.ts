@@ -3,7 +3,8 @@ import { IShotModel } from '../../interfaces/shot.model';
 
 @Component({
     selector: 'shot',
-    templateUrl: './shot.component.html'
+    templateUrl: './shot.component.html',
+    styleUrls: ['./shot.component.less']
 })
 
 export class ShotComponent {

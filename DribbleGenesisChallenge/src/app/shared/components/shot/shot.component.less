@@ -1,0 +1,29 @@
+﻿@import "../../styles/variables.less";
+
+// local variables
+@thumbnail-width: 200px;
+@thumbnail-height: 150px;
+
+.shot-container {
+  position: relative;
+  cursor: pointer;
+
+  .thumbnail-image {
+    width: @thumbnail-width;
+    height: @thumbnail-height;
+  }
+
+  .shot-details {
+    border: 1px solid @link-color;
+    position: absolute;
+    top: 0;
+    width: @thumbnail-width;
+    height: @thumbnail-height;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 3px;
+  }
+
+  .shot-date {
+    color: @link-color;
+  }
+}

@@ -1,1 +1,11 @@
-﻿<div class="col-md-4">{{shot.Title}}</div>
+﻿<div class="col-md-4">
+  <div class="shot-container">
+    <img src="{{shot.ThumbnailUrl}}" class="thumbnail-image" />
+    <div class="shot-details" *ngIf="shot.ShowDetails == true">
+      <h4>{{shot.Title}}</h4>
+      <div>{{shot.Description}}</div>
+      <br />
+      <div class="shot-date">{{shot.PublishedDate | date: medium}}</div>
+    </div>  
+  </div>  
+</div>
