@@ -5,4 +5,8 @@
           (mouseenter)="showDetails(i)" 
           (mouseleave)="hideDetails(i)"></shot>
   </div>
+  <div class="row" *ngFor="let row of placeholdersGrid">
+    <placeholder *ngFor="let placeholder of row"
+                 [placeholder]="placeholder"></placeholder>    
+  </div>
 </div>
