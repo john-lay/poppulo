@@ -1,9 +1,17 @@
 ﻿import { Injectable } from '@angular/core';
 import { IShotModel } from '../interfaces/shot.model';
 import { IShotDetailsModel } from '../interfaces/shot-details.model';
+import { Http, Response } from "@angular/http";
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class ShotService {
+
+    constructor(private http: Http) { }
 
     shotDetails: IShotDetailsModel[] = [{
           Title: 'Health App mobile',
@@ -31,34 +39,28 @@ export class ShotService {
       }];
 
 
-    getShots = (): IShotModel[] => {
-        return [{
-            Title: 'Health App mobile',
-            Description: 'Some new screens from my upcoming Health app project.',
-            PublishedDate: '2015-05-14',
-            ThumbnailUrl: 'https://cdn.dribbble.com/users/149817/screenshots/2062953/app10-nahlad-2_teaser.png',
-            ShowDetails: false,
-            Id: 1
-        },
-        {
-            Title: 'Xonom',
-            Description: 'The idea is to colour it green',
-            PublishedDate: '2014-09-24',
-            ThumbnailUrl: 'https://cdn.dribbble.com/users/78637/screenshots/1738453/xonom_teaser.jpg',
-            ShowDetails: false,
-            Id: 2
-        },
-        {
-            Title: 'Health app',
-            Description: 'I was working on health app, and this is a main dashboard page of it.',
-            PublishedDate: '2014-07-17',
-            ThumbnailUrl: 'https://cdn.dribbble.com/users/149817/screenshots/1646215/nahlad_teaser.png',
-            ShowDetails: false,
-            Id: 3
-        }];
+    getShots = (): Observable<IShotModel[]> => {
+        return this.http.get('assets/shots.json')
+            .map((response: Response) => <IShotModel[]>response.json().data)
+            .catch(this.handleError);
     };
 
-    getShotDetails = (id: number): IShotDetailsModel => {
-        return this.shotDetails.filter(shot => shot.Id === id)[0];
+    getShotDetails = (id: number): Observable<IShotDetailsModel> => {
+        return this.http.get('assets/shot-details.json')
+            .map((response: Response) => {
+                var data = <IShotDetailsModel[]>response.json().data;
+                
+                return data.filter(shot => shot.Id === id)[0];
+            })
+            .catch(this.handleError);
+
+        
+        //return this.shotDetails.filter(shot => shot.Id === id)[0];
+    }
+
+    private handleError(error: Response) {
+        console.error(error);
+        let msg = `Error status code ${error.status} at ${error.url}`;
+        return Observable.throw(msg);
     }
 }

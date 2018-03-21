@@ -1,9 +1,9 @@
 ﻿<div class="container">
-  <div class="row">
-    <shot *ngFor="let shot of shots; let i = index" 
+  <div class="row" *ngFor="let row of shotsGrid">
+    <shot *ngFor="let shot of row" 
           [shot]="shot" 
-          (mouseenter)="showDetails(i)" 
-          (mouseleave)="hideDetails(i)"></shot>
+          (mouseenter)="showDetails(shot.Id)" 
+          (mouseleave)="hideDetails(shot.Id)"></shot>
   </div>
   <div class="row" *ngFor="let row of placeholdersGrid">
     <placeholder *ngFor="let placeholder of row"

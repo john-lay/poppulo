@@ -11,39 +11,47 @@ import { IPlaceholderModel } from "../../interfaces/placeholder.model";
 
 export class ShotListComponent implements OnInit {
     
-    shots: IShotModel[] = this.shotService.getShots();    
+    shotsGrid: IShotModel[][];
     placeholdersGrid: IPlaceholderModel[][];
 
     public constructor(private shotService: ShotService, private placeholderService: PlaceholderService) { }
 
     ngOnInit(): void {
+        this.getShots();
         this.getPlaceholders();
     }
 
-    showDetails(i: number) {
-        this.shots[i].ShowDetails = true;
+    showDetails(id: number) {        
+        this.findShot(id).ShowDetails = true;
     }
 
-    hideDetails(i: number) {
-        this.shots[i].ShowDetails = false;
+    hideDetails(id: number) {
+        this.findShot(id).ShowDetails = false;
+    }
+
+    private getShots() {
+        this.shotService.getShots()
+            .subscribe(result => this.shotsGrid = this.buildGrid(result, 3));
     }
 
     private getPlaceholders() {      
         this.placeholderService.getPlaceholder()
-            .subscribe(result => this.buildPlaceholdersGrid(result));
+            .subscribe(result => this.placeholdersGrid = this.buildGrid(result, 3));
     }
 
-    private buildPlaceholdersGrid(placeholdersList: IPlaceholderModel[]) {
+    private buildGrid(list: any, columns: number): any[] {
 
         // trim the list to 10 items for the sake of brevity
-        var list = placeholdersList.splice(0, 10);
+        if (list.length > 10) {
+            list = list.splice(0, 10);
+        }
 
-        var grid: IPlaceholderModel[][] = [];
+        var grid: any[][] = [];
 
-        for (var i = 0; i < list.length; i+= 3) {
+        for (var i = 0; i < list.length; i += columns) {
             var row: IPlaceholderModel[] = [];
 
-            for (var j=0; j<3; j++) {
+            for (var j = 0; j < columns; j++) {
                 var value: IPlaceholderModel = list[i + j];
 
                 if (!value) {
@@ -55,6 +63,13 @@ export class ShotListComponent implements OnInit {
             grid.push(row);
         }
 
-        this.placeholdersGrid = grid;
+        return grid;
+    }
+
+    private findShot(id: number): IShotModel {
+        // flatten shotGrid to 1d array for filtering
+        let shotsList: IShotModel[] = [].concat.apply([], this.shotsGrid);
+
+        return shotsList.filter(shot => shot.Id == id)[0];
     }
 }

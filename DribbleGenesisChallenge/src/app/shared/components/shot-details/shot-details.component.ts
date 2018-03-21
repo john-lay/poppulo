@@ -14,14 +14,20 @@ import 'rxjs/add/operator/do';
 
 export class ShotDetailsComponent implements OnInit {
     
-    private id: any;
+    private id: number;
     shotDetails: IShotDetailsModel;
 
     public constructor(private route: ActivatedRoute, private shotService: ShotService) { }
 
     ngOnInit() {
+        this.getDetails();
         this.route.params.map(params => params['id'])
             .do(id => this.id = parseInt(id, 10))
-            .subscribe(id => this.shotDetails = this.shotService.getShotDetails(this.id));
+            .subscribe(id => this.getDetails());
+    }
+
+    private getDetails() {
+        this.shotService.getShotDetails(this.id)
+            .subscribe(result => this.shotDetails = result);
     }
 }
