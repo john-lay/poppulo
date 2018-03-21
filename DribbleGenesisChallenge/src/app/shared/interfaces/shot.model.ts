@@ -4,4 +4,5 @@
     PublishedDate: string;
     ThumbnailUrl: string;
     ShowDetails: boolean;
+    Id: number;
 }
