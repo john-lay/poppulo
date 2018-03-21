@@ -6,7 +6,8 @@ import { IPlaceholderModel } from "../../interfaces/placeholder.model";
 
 @Component({
     selector: 'shot-list',
-    templateUrl: './shot-list.component.html'
+    templateUrl: './shot-list.component.html',
+    styleUrls: ['./shot-list.component.less']
 })
 
 export class ShotListComponent implements OnInit {

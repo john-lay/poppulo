@@ -1,12 +1,17 @@
-﻿<div class="container">
+﻿<div class="container shot-list-container well">
   <div class="row" *ngFor="let row of shotsGrid">
-    <shot *ngFor="let shot of row" 
-          [shot]="shot" 
-          (mouseenter)="showDetails(shot.Id)" 
-          (mouseleave)="hideDetails(shot.Id)"></shot>
+    <div class="col-md-4 shot-container" *ngFor="let shot of row">
+      <shot [shot]="shot"
+            (mouseenter)="showDetails(shot.Id)"
+            (mouseleave)="hideDetails(shot.Id)"
+            class="shot"></shot>
+    </div>
   </div>
+  
   <div class="row" *ngFor="let row of placeholdersGrid">
-    <placeholder *ngFor="let placeholder of row"
-                 [placeholder]="placeholder"></placeholder>    
+    <div class="col-md-4" *ngFor="let placeholder of row">
+      <placeholder [placeholder]="placeholder"
+                   class="placeholder"></placeholder>
+    </div>
   </div>
 </div>

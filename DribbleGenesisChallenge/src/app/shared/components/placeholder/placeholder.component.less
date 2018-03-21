@@ -1,10 +1,17 @@
-﻿// local variables
-@placeholder-width: 150px;
-@placeholder-height: 150px;
+﻿@import "../../styles/variables.less";
+@import "../../styles/Mixins.less";
 
 .placeholder-container {
   position: relative;
-  width: @placeholder-width;
-  height: @placeholder-height;
+  width: @tile-width + @tile-padding-small + @tile-padding-small;
+  height: @tile-height + @tile-padding-small + @tile-padding-large;
   margin: 0 auto 1em auto;
+  background-color: @tile-background-color;
+  padding: @tile-padding-small @tile-padding-small @tile-padding-large @tile-padding-small;
+  .tile-box-shadow();
+
+  .placeholder-img {
+    margin: 0 auto;
+    display: block;
+  }
 }

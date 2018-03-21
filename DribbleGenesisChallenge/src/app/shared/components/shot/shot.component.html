@@ -1,12 +1,10 @@
-﻿<div class="col-md-4">
-  <div class="shot-container">
-    <img src="{{shot.ThumbnailUrl}}" class="thumbnail-image" />
-    <a href="" [routerLink]="['/shot', shot.Id]" class="shot-details" *ngIf="shot.ShowDetails == true">
-      <h4>{{shot.Title}}</h4>
-      <div *ngIf="shot.Description.length < 70">{{shot.Description}}</div>
-      <div *ngIf="shot.Description.length >= 70">{{shot.Description | slice:0: 55}}...</div>
-      <br />
-      <div class="shot-date">{{shot.PublishedDate | date: medium}}</div>
-    </a>  
-  </div>  
+﻿<div class="shot-container">
+  <img src="{{shot.ThumbnailUrl}}" class="thumbnail-image" />
+  <a href="" [routerLink]="['/shot', shot.Id]" class="shot-details" *ngIf="shot.ShowDetails == true">
+    <h4>{{shot.Title}}</h4>
+    <div *ngIf="shot.Description.length < 70">{{shot.Description}}</div>
+    <div *ngIf="shot.Description.length >= 70">{{shot.Description | slice:0: 55}}...</div>
+    <br />
+    <div class="shot-date">{{shot.PublishedDate | date: medium}}</div>
+  </a>  
 </div>
