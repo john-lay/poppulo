@@ -1,4 +1,4 @@
-﻿<div class="container shot-list-container well">
+﻿<div class="container shot-list-container">
   <div class="row" *ngFor="let row of shotsGrid">
     <div class="col-md-4 shot-container" *ngFor="let shot of row">
       <shot [shot]="shot"
@@ -9,7 +9,7 @@
   </div>
   
   <div class="row" *ngFor="let row of placeholdersGrid">
-    <div class="col-md-4" *ngFor="let placeholder of row">
+    <div class="col-md-4 placeholder-container" *ngFor="let placeholder of row">
       <placeholder [placeholder]="placeholder"
                    class="placeholder"></placeholder>
     </div>

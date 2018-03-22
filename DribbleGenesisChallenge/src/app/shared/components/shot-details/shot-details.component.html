@@ -8,18 +8,21 @@
     </div>
   </div>
   <br />
-  <div class="row">
-    <div class="col-md-1 col-md-offset-2"><img src="{{shotDetails.Avatar}}" /></div>
-    <div class="col-md-3">
-      <h3 class="title">{{shotDetails.Title}}</h3>
-      <div class="author">{{shotDetails.AuthorName}}</div>
-    </div>    
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-md-offset-2 col-md-9">
-      <div class="well description">{{shotDetails.Description}}</div>
-      <img src="{{shotDetails.ImageUrl}}" />
+  <div class="details-container">
+    <div class="row">
+      <div class="img-container">
+        <img src="{{shotDetails.ImageUrl}}" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1 col-md-offset-2"><img class="avatar" src="{{shotDetails.Avatar}}" /></div>
+      <div class="col-md-3">
+        <h3 class="title">{{shotDetails.Title}}</h3>
+        By <span class="author">{{shotDetails.AuthorName}}</span>
+      </div>
+      <div class="col-md-offset-2 col-md-9">
+        <div class="description">{{shotDetails.Description}}</div>
+      </div>
     </div>
   </div>
 </div>
