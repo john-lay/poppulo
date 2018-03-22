@@ -48,8 +48,7 @@
   }
 }
 
-// Extra small devices (portrait phones, less than 576px)
-// No media query since this is the default in Bootstrap
+// Small devices (landscape phones, 576px and up)
 @media (max-width: 576px) {
   .shot-details {
     .details-container {
@@ -64,23 +63,8 @@
     }
   }
 }
-// Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) {
-  .shot-details {
-    .details-container {
-      .img-container {
-        width: auto;
-        height: auto;
-
-        img {
-          width: 100%;
-        }
-      }
-    }
-  }
-}
 // Medium devices (tablets, 768px and up)
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .shot-details {
     .details-container {
       .img-container {
