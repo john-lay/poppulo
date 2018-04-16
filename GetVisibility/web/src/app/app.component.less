@@ -1,0 +1,105 @@
+﻿@import "shared/styles/variables.less";
+
+footer {
+  color: @widget-text-color;
+  margin-left: 1em;
+}
+
+// top nav bar
+.navbar-gv {
+  border-radius: 0;
+  margin-bottom: 0;
+  background-color: @widget-bg-color;
+
+  .navbar-right {
+    margin-right: 0;
+  }
+
+  .finger-print {
+    display: inline;
+    margin-right: 1em;
+  }
+
+  .glyphicon-gv {
+    color: @active-nav-color;
+    margin-right: 1em;
+  }
+}
+
+// main content
+.gv-content {
+  background-color: @window-background-color;
+  padding-top: 1em;
+  // side bar
+  .nav-sidebar-gv {
+    .active {
+      background-color: @active-nav-color;
+      border-radius: 4px;
+
+      a {
+        color: @active-nav-text-color;
+
+        &:hover {
+          color: @active-nav-text-color;
+          background-color: @active-nav-hover-color !important;
+        }
+      }
+    }
+
+    a {
+      border-radius: 4px;
+      color: @widget-text-color;
+
+      &:hover {
+        background-color: @widget-bg-color !important;
+        color: @active-nav-hover-color;
+      }
+    }
+
+    .glyphicon {
+      margin-right: 1em;
+    }
+  }
+}
+
+.gv-heading {
+  font-size: 2em;
+  font-weight: bold;
+  color: @active-nav-hover-color;
+}
+
+.gv-tour-button {
+  border: 1px solid @active-nav-color;
+  border-radius: 4px;
+  padding-left: 1em;
+  margin-top: 8px;
+}
+
+.gv-tour-text {
+  color: @widget-text-color;
+  margin-right: 1em;
+}
+
+.gv-strapline {
+  margin-top: 8px;
+  color: @widget-text-color;
+}
+
+.gv-widget {
+  background-color: @widget-bg-color;
+  border-radius: 4px;
+  padding: 2em;
+  margin-top: 1em;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .gv-widget img {
+    width: 100%;
+    height: 50%;
+  }
+}
