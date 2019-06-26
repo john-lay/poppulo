@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A model representing a lottery ticket
+ */
 public class Ticket {
     private String id;
 
