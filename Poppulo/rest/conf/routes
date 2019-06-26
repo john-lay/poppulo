@@ -9,7 +9,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST    /ticket        controllers.LotteryController.createTicket
 
 # Return a list of tickets
-GET     /ticket         controllers.LotteryController.index
+GET     /ticket         controllers.LotteryController.allTickets
 
 # Get individual ticket
 GET     /ticket/:id     controllers.LotteryController.findTicket(id)

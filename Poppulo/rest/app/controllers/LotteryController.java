@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This controller contains an action to handle HTTP requests
- * to the application's home page.
+ * This controller contains a set of actions to handle HTTP requests
+ * to the application's lottery tickets.
  */
 public class LotteryController extends Controller {
 
@@ -21,21 +21,21 @@ public class LotteryController extends Controller {
     private static final int RESULT_DEFAULT = 0;
     private List<Ticket> tickets = new ArrayList<>();
 
+
     /**
-     * An action that renders an HTML page with a welcome message.
-     * The configuration in the <code>routes</code> file means that
-     * this method will be called when the application receives a
-     * <code>GET</code> request with a path of <code>/</code>.
+     * Lists all lottery tickets
+     *
+     * @return A http 200 response with a body containing all tickets as json
      */
-    public Result index() {
-        return ok("{\"hello\":" + newTicketNumber() + "}").as("application/json");
+    public Result allTickets() {
+        return ok(Json.toJson(this.tickets.toString()));
     }
 
-    private Integer newTicketNumber() {
-        Random r = new Random();
-        return r.nextInt(3);
-    }
-
+    /**
+     * Generate a new ticket and add it to the collection of tickets
+     *
+     * @return A http 200 response with a body containing the new ticket
+     */
     public Result createTicket() {
         int[] row = {newTicketNumber(), newTicketNumber(), newTicketNumber()};
         Ticket t = new Ticket(row);
@@ -44,6 +44,13 @@ public class LotteryController extends Controller {
         return ok(Json.toJson(t).toString());
     }
 
+    /**
+     * Searches the collection of tickets using the ticket ID as the key
+     *
+     * @param id the ticket to search for
+     * @return if a corresponding ticket is found a http 200 response with a body containing the ticket,
+     * otherwise a http 400 (not found) is returned
+     */
     public Result findTicket(String id) {
         Ticket t = this.searchTicketsById(id);
         if (t != null) {
@@ -53,6 +60,22 @@ public class LotteryController extends Controller {
         }
     }
 
+    /**
+     * Generates a random integer between 0 and 2 inclusive
+     *
+     * @return 0, 1 or 2
+     */
+    private Integer newTicketNumber() {
+        Random r = new Random();
+        return r.nextInt(3);
+    }
+
+    /**
+     * Searches the collection of tickets for a ticket with the given ID
+     *
+     * @param id The ticket to look for
+     * @return the requested ticket or null if it cannot be found
+     */
     private Ticket searchTicketsById(String id) {
         return this.tickets.stream()
                 .filter(ticket -> ticket.getId().equals(id))
