@@ -15,7 +15,7 @@ GET     /ticket                     controllers.LotteryController.allTickets
 GET     /ticket/:id                 controllers.LotteryController.findTicket(id)
 
 # Amend ticket lines
-#PUT     /ticket/{id}
+PUT     /ticket/:id/:numberOfLines  controllers.LotteryController.addLines(id, numberOfLines: Int)
 
 # Retrieve status of ticket
 #PUT     /status/{id}
