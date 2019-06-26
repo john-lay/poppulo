@@ -12,7 +12,7 @@ POST    /ticket        controllers.LotteryController.createTicket
 GET     /ticket         controllers.LotteryController.index
 
 # Get individual ticket
-#GET     /ticket/{id}
+GET     /ticket/:id     controllers.LotteryController.findTicket(id)
 
 # Amend ticket lines
 #PUT     /ticket/{id}

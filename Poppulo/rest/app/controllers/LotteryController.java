@@ -39,8 +39,24 @@ public class LotteryController extends Controller {
     public Result createTicket() {
         int[] row = {newTicketNumber(), newTicketNumber(), newTicketNumber()};
         Ticket t = new Ticket(row);
-        String result = Json.toJson(t).toString();
-        return ok(result);
+        this.tickets.add(t);
+
+        return ok(Json.toJson(t).toString());
     }
 
+    public Result findTicket(String id) {
+        Ticket t = this.searchTicketsById(id);
+        if (t != null) {
+            return ok(Json.toJson(t).toString());
+        } else {
+            return notFound("Could not find specified ticket");
+        }
+    }
+
+    private Ticket searchTicketsById(String id) {
+        return this.tickets.stream()
+                .filter(ticket -> ticket.getId().equals(id))
+                .findAny()
+                .orElse(null);
+    }
 }
