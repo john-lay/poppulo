@@ -34,11 +34,15 @@ public class LotteryController extends Controller {
     /**
      * Generate a new ticket and add it to the collection of tickets
      *
+     * @param numberOfLines the number of lines to add to the ticket
      * @return A http 200 response with a body containing the new ticket
      */
-    public Result createTicket() {
-        int[] row = {newTicketNumber(), newTicketNumber(), newTicketNumber()};
-        Ticket t = new Ticket(row);
+    public Result createTicket(int numberOfLines) {
+        Ticket t = new Ticket();
+        for (int i = 0; i < numberOfLines; i++) {
+            int[] line = {newTicketNumber(), newTicketNumber(), newTicketNumber()};
+            t.addLine(line);
+        }
         this.tickets.add(t);
 
         return ok(Json.toJson(t).toString());
