@@ -15,6 +15,10 @@ import java.util.Random;
  */
 public class LotteryController extends Controller {
 
+    private static final int RESULT_ALL_TWO = 10;
+    private static final int RESULT_ALL_SAME = 5;
+    private static final int RESULT_UNIQUE_FIRST = 1;
+    private static final int RESULT_DEFAULT = 0;
     private List<Ticket> tickets = new ArrayList<>();
 
     /**
