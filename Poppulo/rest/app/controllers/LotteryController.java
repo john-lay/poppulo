@@ -24,7 +24,7 @@ public class LotteryController extends Controller {
 
     /**
      * Lists all lottery tickets
-     *
+     * <p>
      * Example: curl -X GET http://localhost:9000/ticket
      *
      * @return A http 200 response with a body containing all tickets as json
@@ -35,7 +35,7 @@ public class LotteryController extends Controller {
 
     /**
      * Generate a new ticket and add it to the collection of tickets
-     *
+     * <p>
      * Example (with 3 lines): curl -X POST http://localhost:9000/ticket/3
      *
      * @param numberOfLines the number of lines to add to the ticket
@@ -51,7 +51,7 @@ public class LotteryController extends Controller {
 
     /**
      * Searches the collection of tickets using the ticket ID as the key
-     *
+     * <p>
      * Example: curl -X GET http://localhost:9000/ticket/3d8df83f-3b08-479b-b4ac-2aa542de0b58
      *
      * @param id the ticket to search for
@@ -62,17 +62,17 @@ public class LotteryController extends Controller {
         Ticket t = this.searchTicketsById(id);
         if (t != null) {
             return ok(Json.toJson(t).toString());
-        } else {
-            return notFound("Could not find specified ticket");
         }
+
+        return notFound("Could not find specified ticket");
     }
 
     /**
      * Adds the specified number of lines to the lottery ticket
-     *
+     * <p>
      * Example (adding 3 lines): curl -X PUT http://localhost:9000/ticket/3d8df83f-3b08-479b-b4ac-2aa542de0b58/3
      *
-     * @param id the lottery ticket to modify
+     * @param id            the lottery ticket to modify
      * @param numberOfLines the number of lines to add to the ticket
      * @return if a corresponding ticket is found a http 200 response with a body containing the modified ticket,
      * otherwise a http 400 (not found) is returned
@@ -83,15 +83,16 @@ public class LotteryController extends Controller {
             Ticket withLines = this.addLines(t, numberOfLines);
             this.updateTicket(withLines);
             return ok(Json.toJson(withLines).toString());
-        } else {
-            return notFound("Could not find specified ticket");
         }
+
+        return notFound("Could not find specified ticket");
+
     }
 
     public Result status(String id) {
         Ticket t = this.searchTicketsById(id);
-        if(t != null) {
-            if(t.isAmmended()) {
+        if (t != null) {
+            if (t.isAmmended()) {
                 return forbidden("Not allowed to amend ticket");
             }
             t.setAmmended(true);
@@ -126,9 +127,9 @@ public class LotteryController extends Controller {
     }
 
     /**
-     *  Adds a specified number of lines to the ticket
+     * Adds a specified number of lines to the ticket
      *
-     * @param ticket the lottery ticket to modify
+     * @param ticket        the lottery ticket to modify
      * @param numberOfLines the number of lines to add to the ticket
      * @return the modified ticket
      */
