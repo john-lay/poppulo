@@ -88,4 +88,24 @@ public class LotteryControllerTest extends WithApplication {
         Result result = route(app, request);
         assertEquals(NOT_FOUND, result.status());
     }
+
+    @Test
+    public void AddLines_ShouldReturnHttp404_ForAnInvalidTicketId() {
+        Http.RequestBuilder request = new Http.RequestBuilder()
+                .method(PUT)
+                .uri("/ticket/3d8df83f-3b08-479b-b4ac-2aa542de0b58/3");
+
+        Result result = route(app, request);
+        assertEquals(NOT_FOUND, result.status());
+    }
+
+    @Test
+    public void AddLines_ShouldReturnHttp400_WhenAnInvalidValueIsPassedAsTheNumberOfLines() {
+        Http.RequestBuilder request = new Http.RequestBuilder()
+                .method(PUT)
+                .uri("/ticket/3d8df83f-3b08-479b-b4ac-2aa542de0b58/t");
+
+        Result result = route(app, request);
+        assertEquals(BAD_REQUEST, result.status());
+    }
 }
