@@ -12,20 +12,20 @@ public class Ticket {
 
     private List<int[]> lines;
 
-    private boolean ammended;
+    private boolean amended;
 
-    public boolean isAmmended() {
-        return ammended;
+    public boolean isAmended() {
+        return amended;
     }
 
-    public void setAmmended(boolean ammended) {
-        this.ammended = ammended;
+    public void setAmended(boolean amended) {
+        this.amended = amended;
     }
 
     public Ticket() {
         this.id = UUID.randomUUID().toString();
         this.lines = new ArrayList<>();
-        this.ammended = false;
+        this.amended = false;
     }
 
     public Ticket(int[] line) {
