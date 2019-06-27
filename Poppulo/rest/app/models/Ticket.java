@@ -8,9 +8,15 @@ import java.util.UUID;
  * A model representing a lottery ticket
  */
 public class Ticket {
+
+    public static final int RESULT_EQUAL_TWO = 10;
+    public static final int RESULT_ALL_SAME = 5;
+    public static final int RESULT_UNIQUE_FIRST = 1;
+    public static final int RESULT_DEFAULT = 0;
+
     private String id;
 
-    private List<int[]> lines;
+    private List<Line> lines;
 
     private boolean amended;
 
@@ -28,20 +34,19 @@ public class Ticket {
         this.amended = false;
     }
 
-    public Ticket(int[] line) {
-        this();
-        this.lines.add(line);
-    }
-
     public String getId() {
         return id;
     }
 
-    public List<int[]> getLines() {
+    public List<Line> getLines() {
         return lines;
     }
 
+    public void setLines(List<Line> lines) {
+        this.lines = lines;
+    }
+
     public void addLine(int[] line) {
-        this.lines.add(line);
+        this.lines.add(new Line(line, RESULT_DEFAULT));
     }
 }

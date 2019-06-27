@@ -1,13 +1,16 @@
 package controllers;
 
+import models.Line;
 import models.Ticket;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * This controller contains a set of actions to handle HTTP requests
@@ -15,12 +18,7 @@ import java.util.Random;
  */
 public class LotteryController extends Controller {
 
-    private static final int RESULT_ALL_TWO = 10;
-    private static final int RESULT_ALL_SAME = 5;
-    private static final int RESULT_UNIQUE_FIRST = 1;
-    private static final int RESULT_DEFAULT = 0;
     private List<Ticket> tickets = new ArrayList<>();
-
 
     /**
      * Lists all lottery tickets
@@ -97,12 +95,12 @@ public class LotteryController extends Controller {
     public Result status(String id) {
         Ticket t = this.searchTicketsById(id);
         if (t != null) {
-            if (t.isAmended()) {
-                return forbidden("Not allowed to amend ticket");
+            if(!t.isAmended()) {
+                t.setAmended(true);
+                this.checkTicket(t);
+                this.sortResults(t);
+                this.updateTicket(t);
             }
-
-            t.setAmended(true);
-            this.updateTicket(t);
 
             return ok(Json.toJson(t).toString());
         }
@@ -159,5 +157,34 @@ public class LotteryController extends Controller {
 
         this.tickets.remove(toRemove);
         this.tickets.add(ticket);
+    }
+
+    private Ticket checkTicket(Ticket ticket) {
+        List<Line> lines = ticket.getLines();
+
+        for(Line line : lines) {
+            if(line.getNumbers()[0] + line.getNumbers()[1] + line.getNumbers()[2] == 2) {
+                line.setResult(Ticket.RESULT_EQUAL_TWO);
+            }
+            else if((line.getNumbers()[0] == line.getNumbers()[1]) && (line.getNumbers()[0] == line.getNumbers()[2])) {
+                line.setResult(Ticket.RESULT_ALL_SAME);
+            }
+            else if((line.getNumbers()[0] != line.getNumbers()[1]) && (line.getNumbers()[0] != line.getNumbers()[2])) {
+                line.setResult(Ticket.RESULT_UNIQUE_FIRST);
+            }
+            else {
+                line.setResult(Ticket.RESULT_DEFAULT);
+            }
+        }
+
+        return ticket;
+    }
+
+    private Ticket sortResults(Ticket ticket) {
+        ticket.setLines(ticket.getLines().stream()
+                .sorted(Comparator.comparing(Line::getResult).reversed())
+                .collect(Collectors.toList()));
+
+        return ticket;
     }
 }
