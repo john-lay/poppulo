@@ -17,6 +17,8 @@ public class LotteryController extends Controller {
 
     private final List<Ticket> tickets = new ArrayList<>();
 
+    private final static Random random = new Random();
+
     /**
      * Lists all lottery tickets
      * <p>
@@ -101,7 +103,7 @@ public class LotteryController extends Controller {
 
     /**
      * Checks the status of a ticket for winning lines and marks it as checked
-     *
+     * <p>
      * Example: curl -X PUT http://localhost:9000/status/3d8df83f-3b08-479b-b4ac-2aa542de0b58
      *
      * @param id the lottery ticket to check
@@ -125,13 +127,16 @@ public class LotteryController extends Controller {
     }
 
     /**
-     * Generates a random integer between 0 and 2 inclusive
+     * Generates a new line consisting of 3 random integers between 0 and 2 inclusive
      *
-     * @return 0, 1 or 2
+     * @return an array of 3 numbers, with each element being 0, 1 or 2
      */
-    private Integer newTicketNumber() {
-        Random r = new Random();
-        return r.nextInt(3);
+    private int[] newLine() {
+        return new int[]{
+                random.nextInt(3),
+                random.nextInt(3),
+                random.nextInt(3)
+        };
     }
 
     /**
@@ -154,7 +159,7 @@ public class LotteryController extends Controller {
      */
     private void addLines(Ticket ticket, int numberOfLines) {
         for (int i = 0; i < numberOfLines; i++) {
-            int[] line = {newTicketNumber(), newTicketNumber(), newTicketNumber()};
+            int[] line = this.newLine();
             ticket.addLine(line);
         }
     }
@@ -175,6 +180,7 @@ public class LotteryController extends Controller {
 
     /**
      * Calculates whether the lines in a ticket are winning lines
+     *
      * @param ticket the ticket to check
      */
     private void checkTicket(Ticket ticket) {
@@ -195,6 +201,7 @@ public class LotteryController extends Controller {
 
     /**
      * Takes a ticket and sorts them by line result
+     *
      * @param ticket the ticket to sort
      */
     private void sortResults(Ticket ticket) {
@@ -205,6 +212,7 @@ public class LotteryController extends Controller {
 
     /**
      * Validate the user input when supplying lines
+     *
      * @param numberOfLines the number of lines to verify
      * @return An option of a Result or an empty option when there are no errors
      */
