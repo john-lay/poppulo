@@ -41,10 +41,10 @@ public class LotteryController extends Controller {
      */
     public Result createTicket(int numberOfLines) {
         Ticket t = new Ticket();
-        Ticket withLines = this.addLines(t, numberOfLines);
-        this.tickets.add(withLines);
+        this.addLines(t, numberOfLines);
+        this.tickets.add(t);
 
-        return ok(Json.toJson(withLines).toString());
+        return ok(Json.toJson(t).toString());
     }
 
     /**
@@ -82,10 +82,10 @@ public class LotteryController extends Controller {
                 return forbidden("Not allowed to amend ticket");
             }
 
-            Ticket withLines = this.addLines(t, numberOfLines);
-            this.updateTicket(withLines);
+            this.addLines(t, numberOfLines);
+            this.updateTicket(t);
 
-            return ok(Json.toJson(withLines).toString());
+            return ok(Json.toJson(t).toString());
         }
 
         return notFound("Could not find specified ticket");
