@@ -6,10 +6,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -41,8 +38,8 @@ public class LotteryController extends Controller {
      */
     public Result createTicket(int numberOfLines) {
 
-        if (this.validateNumberOfLines(numberOfLines) != null) {
-            return this.validateNumberOfLines(numberOfLines);
+        if (this.validateNumberOfLines(numberOfLines).isPresent()) {
+            return this.validateNumberOfLines(numberOfLines).get();
         }
 
         Ticket t = new Ticket();
@@ -82,8 +79,8 @@ public class LotteryController extends Controller {
      */
     public Result addLines(String id, int numberOfLines) {
 
-        if (this.validateNumberOfLines(numberOfLines) != null) {
-            return this.validateNumberOfLines(numberOfLines);
+        if (this.validateNumberOfLines(numberOfLines).isPresent()) {
+            return this.validateNumberOfLines(numberOfLines).get();
         }
 
         Ticket t = this.searchTicketsById(id);
@@ -204,11 +201,11 @@ public class LotteryController extends Controller {
         return ticket;
     }
 
-    private Result validateNumberOfLines(int numberOfLines) {
+    private Optional<Result> validateNumberOfLines(int numberOfLines) {
         if (numberOfLines <= 0) {
-            return badRequest("Please ensure the number of lines is a positive number");
+            return Optional.of(badRequest("Please ensure the number of lines is a positive number"));
         }
 
-        return null;
+        return Optional.empty();
     }
 }
