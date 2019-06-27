@@ -105,6 +105,8 @@ public class LotteryController extends Controller {
     /**
      * Checks the status of a ticket for winning lines and marks it as checked
      *
+     * Example: curl -X PUT http://localhost:9000/status/3d8df83f-3b08-479b-b4ac-2aa542de0b58
+     *
      * @param id the lottery ticket to check
      * @return if a corresponding ticket is found a http 200 response with a body containing the modified ticket,
      * otherwise a http 400 (not found) is returned
