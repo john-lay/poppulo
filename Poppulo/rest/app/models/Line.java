@@ -2,7 +2,7 @@ package models;
 
 public class Line {
 
-    private int[] numbers;
+    private final int[] numbers;
 
     private int result;
 
@@ -13,10 +13,6 @@ public class Line {
 
     public int[] getNumbers() {
         return numbers;
-    }
-
-    public void setNumbers(int[] numbers) {
-        this.numbers = numbers;
     }
 
     public int getResult() {

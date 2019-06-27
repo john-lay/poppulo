@@ -14,7 +14,7 @@ public class Ticket {
     public static final int RESULT_UNIQUE_FIRST = 1;
     public static final int RESULT_DEFAULT = 0;
 
-    private String id;
+    private final String id;
 
     private List<Line> lines;
 

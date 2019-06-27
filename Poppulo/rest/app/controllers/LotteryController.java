@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class LotteryController extends Controller {
 
-    private List<Ticket> tickets = new ArrayList<>();
+    private final List<Ticket> tickets = new ArrayList<>();
 
     /**
      * Lists all lottery tickets
@@ -151,15 +151,12 @@ public class LotteryController extends Controller {
      *
      * @param ticket        the lottery ticket to modify
      * @param numberOfLines the number of lines to add to the ticket
-     * @return the modified ticket
      */
-    private Ticket addLines(Ticket ticket, int numberOfLines) {
+    private void addLines(Ticket ticket, int numberOfLines) {
         for (int i = 0; i < numberOfLines; i++) {
             int[] line = {newTicketNumber(), newTicketNumber(), newTicketNumber()};
             ticket.addLine(line);
         }
-
-        return ticket;
     }
 
     /**
@@ -170,18 +167,17 @@ public class LotteryController extends Controller {
     private void updateTicket(Ticket ticket) {
         Optional<Ticket> toRemove = this.searchTicketsById(ticket.getId());
 
-        if(toRemove.isPresent()) {
-            this.tickets.remove(toRemove.get());
+        toRemove.ifPresent(foundTicket -> {
+            this.tickets.remove(foundTicket);
             this.tickets.add(ticket);
-        }
+        });
     }
 
     /**
      * Calculates whether the lines in a ticket are winning lines
      * @param ticket the ticket to check
-     * @return the ticket with the results calculated
      */
-    private Ticket checkTicket(Ticket ticket) {
+    private void checkTicket(Ticket ticket) {
         List<Line> lines = ticket.getLines();
 
         for (Line line : lines) {
@@ -195,21 +191,16 @@ public class LotteryController extends Controller {
                 line.setResult(Ticket.RESULT_DEFAULT);
             }
         }
-
-        return ticket;
     }
 
     /**
      * Takes a ticket and sorts them by line result
      * @param ticket the ticket to sort
-     * @return the same ticket with the lines sorted by results (descending)
      */
-    private Ticket sortResults(Ticket ticket) {
+    private void sortResults(Ticket ticket) {
         ticket.setLines(ticket.getLines().stream()
                 .sorted(Comparator.comparing(Line::getResult).reversed())
                 .collect(Collectors.toList()));
-
-        return ticket;
     }
 
     /**
