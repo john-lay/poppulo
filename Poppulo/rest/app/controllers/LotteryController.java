@@ -88,6 +88,20 @@ public class LotteryController extends Controller {
         }
     }
 
+    public Result status(String id) {
+        Ticket t = this.searchTicketsById(id);
+        if(t != null) {
+            if(t.isAmmended()) {
+                return forbidden("Not allowed to amend ticket");
+            }
+            t.setAmmended(true);
+            this.updateTicket(t);
+            return ok(Json.toJson(t).toString());
+        }
+
+        return notFound("Could not find specified ticket");
+    }
+
     /**
      * Generates a random integer between 0 and 2 inclusive
      *

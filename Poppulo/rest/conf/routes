@@ -18,4 +18,4 @@ GET     /ticket/:id                 controllers.LotteryController.findTicket(id)
 PUT     /ticket/:id/:numberOfLines  controllers.LotteryController.addLines(id, numberOfLines: Int)
 
 # Retrieve status of ticket
-#PUT     /status/{id}
+PUT     /status/:id                 controllers.LotteryController.status(id)
