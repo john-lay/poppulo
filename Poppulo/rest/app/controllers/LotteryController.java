@@ -41,7 +41,7 @@ public class LotteryController extends Controller {
      */
     public Result createTicket(int numberOfLines) {
 
-        if(this.validateNumberOfLines(numberOfLines) != null) {
+        if (this.validateNumberOfLines(numberOfLines) != null) {
             return this.validateNumberOfLines(numberOfLines);
         }
 
@@ -82,13 +82,13 @@ public class LotteryController extends Controller {
      */
     public Result addLines(String id, int numberOfLines) {
 
-        if(this.validateNumberOfLines(numberOfLines) != null) {
+        if (this.validateNumberOfLines(numberOfLines) != null) {
             return this.validateNumberOfLines(numberOfLines);
         }
 
         Ticket t = this.searchTicketsById(id);
         if (t != null) {
-            if(t.isAmended()) {
+            if (t.isAmended()) {
                 return forbidden("Not allowed to amend ticket");
             }
 
@@ -102,10 +102,17 @@ public class LotteryController extends Controller {
 
     }
 
+    /**
+     * Checks the status of a ticket for winning lines and marks it as checked
+     *
+     * @param id the lottery ticket to check
+     * @return if a corresponding ticket is found a http 200 response with a body containing the modified ticket,
+     * otherwise a http 400 (not found) is returned
+     */
     public Result status(String id) {
         Ticket t = this.searchTicketsById(id);
         if (t != null) {
-            if(!t.isAmended()) {
+            if (!t.isAmended()) {
                 t.setAmended(true);
                 this.checkTicket(t);
                 this.sortResults(t);
@@ -172,17 +179,14 @@ public class LotteryController extends Controller {
     private Ticket checkTicket(Ticket ticket) {
         List<Line> lines = ticket.getLines();
 
-        for(Line line : lines) {
-            if(line.getNumbers()[0] + line.getNumbers()[1] + line.getNumbers()[2] == 2) {
+        for (Line line : lines) {
+            if (line.getNumbers()[0] + line.getNumbers()[1] + line.getNumbers()[2] == 2) {
                 line.setResult(Ticket.RESULT_EQUAL_TWO);
-            }
-            else if((line.getNumbers()[0] == line.getNumbers()[1]) && (line.getNumbers()[0] == line.getNumbers()[2])) {
+            } else if ((line.getNumbers()[0] == line.getNumbers()[1]) && (line.getNumbers()[0] == line.getNumbers()[2])) {
                 line.setResult(Ticket.RESULT_ALL_SAME);
-            }
-            else if((line.getNumbers()[0] != line.getNumbers()[1]) && (line.getNumbers()[0] != line.getNumbers()[2])) {
+            } else if ((line.getNumbers()[0] != line.getNumbers()[1]) && (line.getNumbers()[0] != line.getNumbers()[2])) {
                 line.setResult(Ticket.RESULT_UNIQUE_FIRST);
-            }
-            else {
+            } else {
                 line.setResult(Ticket.RESULT_DEFAULT);
             }
         }
@@ -199,7 +203,7 @@ public class LotteryController extends Controller {
     }
 
     private Result validateNumberOfLines(int numberOfLines) {
-        if(numberOfLines <= 0) {
+        if (numberOfLines <= 0) {
             return badRequest("Please ensure the number of lines is a positive number");
         }
 
