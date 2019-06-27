@@ -59,9 +59,9 @@ public class LotteryController extends Controller {
      * otherwise a http 400 (not found) is returned
      */
     public Result findTicket(String id) {
-        Ticket t = this.searchTicketsById(id);
-        if (t != null) {
-            return ok(Json.toJson(t).toString());
+        Optional<Ticket> maybeTicket = this.searchTicketsById(id);
+        if (maybeTicket.isPresent()) {
+            return ok(Json.toJson(maybeTicket).toString());
         }
 
         return notFound("Could not find specified ticket");
@@ -83,16 +83,16 @@ public class LotteryController extends Controller {
             return this.validateNumberOfLines(numberOfLines).get();
         }
 
-        Ticket t = this.searchTicketsById(id);
-        if (t != null) {
-            if (t.isAmended()) {
+        Optional<Ticket> maybeTicket = this.searchTicketsById(id);
+        if (maybeTicket.isPresent()) {
+            if (maybeTicket.get().isAmended()) {
                 return forbidden("Not allowed to amend ticket");
             }
 
-            this.addLines(t, numberOfLines);
-            this.updateTicket(t);
+            this.addLines(maybeTicket.get(), numberOfLines);
+            this.updateTicket(maybeTicket.get());
 
-            return ok(Json.toJson(t).toString());
+            return ok(Json.toJson(maybeTicket).toString());
         }
 
         return notFound("Could not find specified ticket");
@@ -109,16 +109,16 @@ public class LotteryController extends Controller {
      * otherwise a http 400 (not found) is returned
      */
     public Result status(String id) {
-        Ticket t = this.searchTicketsById(id);
-        if (t != null) {
-            if (!t.isAmended()) {
-                t.setAmended(true);
-                this.checkTicket(t);
-                this.sortResults(t);
-                this.updateTicket(t);
+        Optional<Ticket> maybeTicket = this.searchTicketsById(id);
+        if (maybeTicket.isPresent()) {
+            if (!maybeTicket.get().isAmended()) {
+                maybeTicket.get().setAmended(true);
+                this.checkTicket(maybeTicket.get());
+                this.sortResults(maybeTicket.get());
+                this.updateTicket(maybeTicket.get());
             }
 
-            return ok(Json.toJson(t).toString());
+            return ok(Json.toJson(maybeTicket).toString());
         }
 
         return notFound("Could not find specified ticket");
@@ -138,13 +138,12 @@ public class LotteryController extends Controller {
      * Searches the collection of tickets for a ticket with the given ID
      *
      * @param id The ticket to look for
-     * @return the requested ticket or null if it cannot be found
+     * @return an option of the requested ticket
      */
-    private Ticket searchTicketsById(String id) {
+    private Optional<Ticket> searchTicketsById(String id) {
         return this.tickets.stream()
                 .filter(ticket -> ticket.getId().equals(id))
-                .findAny()
-                .orElse(null);
+                .findAny();
     }
 
     /**
@@ -169,12 +168,19 @@ public class LotteryController extends Controller {
      * @param ticket the updated ticket
      */
     private void updateTicket(Ticket ticket) {
-        Ticket toRemove = this.searchTicketsById(ticket.getId());
+        Optional<Ticket> toRemove = this.searchTicketsById(ticket.getId());
 
-        this.tickets.remove(toRemove);
-        this.tickets.add(ticket);
+        if(toRemove.isPresent()) {
+            this.tickets.remove(toRemove.get());
+            this.tickets.add(ticket);
+        }
     }
 
+    /**
+     * Calculates whether the lines in a ticket are winning lines
+     * @param ticket the ticket to check
+     * @return the ticket with the results calculated
+     */
     private Ticket checkTicket(Ticket ticket) {
         List<Line> lines = ticket.getLines();
 
@@ -193,6 +199,11 @@ public class LotteryController extends Controller {
         return ticket;
     }
 
+    /**
+     * Takes a ticket and sorts them by line result
+     * @param ticket the ticket to sort
+     * @return the same ticket with the lines sorted by results (descending)
+     */
     private Ticket sortResults(Ticket ticket) {
         ticket.setLines(ticket.getLines().stream()
                 .sorted(Comparator.comparing(Line::getResult).reversed())
@@ -201,6 +212,11 @@ public class LotteryController extends Controller {
         return ticket;
     }
 
+    /**
+     * Validate the user input when supplying lines
+     * @param numberOfLines the number of lines to verify
+     * @return An option of a Result or an empty option when there are no errors
+     */
     private Optional<Result> validateNumberOfLines(int numberOfLines) {
         if (numberOfLines <= 0) {
             return Optional.of(badRequest("Please ensure the number of lines is a positive number"));
