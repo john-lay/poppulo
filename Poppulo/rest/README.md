@@ -8,6 +8,19 @@ The choice to build the solution using the [Play Framework](https://www.playfram
 It uses the well known model-view-controller pattern and has a powerful and flexible routing engine.
 Based on the requirements and the target audience, I felt this was a good technical decision.
 
+# Installation
+
+## Prerequisites
+* The project requires `SBT` and was built using version `1.2.8`
+* The project is hosted in a git repository and installing git is suggested. (Although the project can be downloaded from the web)
+
+## Build
+* Clone the [technical assessment](https://github.com/john-lay/technical-assessment.git) project
+* Checkout the `poppulo` branch
+* Open a terminal and navigate to the `technical-assessment/Poppulo/rest` directory
+* execute a `sbt run` command
+* The application should be running at [http://localhost:9000](http://localhost:9000), navigating to this url in a browser should present you with a list of routes
+
 # Requirements
 
 ## Problem
