@@ -40,6 +40,11 @@ public class LotteryController extends Controller {
      * @return A http 200 response with a body containing the new ticket
      */
     public Result createTicket(int numberOfLines) {
+
+        if(this.validateNumberOfLines(numberOfLines) != null) {
+            return this.validateNumberOfLines(numberOfLines);
+        }
+
         Ticket t = new Ticket();
         this.addLines(t, numberOfLines);
         this.tickets.add(t);
@@ -76,6 +81,11 @@ public class LotteryController extends Controller {
      * otherwise a http 400 (not found) is returned
      */
     public Result addLines(String id, int numberOfLines) {
+
+        if(this.validateNumberOfLines(numberOfLines) != null) {
+            return this.validateNumberOfLines(numberOfLines);
+        }
+
         Ticket t = this.searchTicketsById(id);
         if (t != null) {
             if(t.isAmended()) {
@@ -186,5 +196,13 @@ public class LotteryController extends Controller {
                 .collect(Collectors.toList()));
 
         return ticket;
+    }
+
+    private Result validateNumberOfLines(int numberOfLines) {
+        if(numberOfLines <= 0) {
+            return badRequest("Please ensure the number of lines is a positive number");
+        }
+
+        return null;
     }
 }
