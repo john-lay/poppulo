@@ -80,8 +80,13 @@ public class LotteryController extends Controller {
     public Result addLines(String id, int numberOfLines) {
         Ticket t = this.searchTicketsById(id);
         if (t != null) {
+            if(t.isAmmended()) {
+                return forbidden("Not allowed to amend ticket");
+            }
+
             Ticket withLines = this.addLines(t, numberOfLines);
             this.updateTicket(withLines);
+
             return ok(Json.toJson(withLines).toString());
         }
 
@@ -95,8 +100,10 @@ public class LotteryController extends Controller {
             if (t.isAmmended()) {
                 return forbidden("Not allowed to amend ticket");
             }
+
             t.setAmmended(true);
             this.updateTicket(t);
+
             return ok(Json.toJson(t).toString());
         }
 
