@@ -27,7 +27,8 @@ public class LotteryController extends Controller {
      * @return A http 200 response with a body containing all tickets as json
      */
     public Result allTickets() {
-        return ok(Json.toJson(this.tickets.toString()));
+        return ok(Json.toJson(this.tickets.toString()))
+                .as("application/json");
     }
 
     /**
@@ -48,7 +49,8 @@ public class LotteryController extends Controller {
         this.addLines(t, numberOfLines);
         this.tickets.add(t);
 
-        return ok(Json.toJson(t).toString());
+        return ok(Json.toJson(t).toString())
+                .as("application/json");
     }
 
     /**
@@ -63,7 +65,8 @@ public class LotteryController extends Controller {
     public Result findTicket(String id) {
         Optional<Ticket> maybeTicket = this.searchTicketsById(id);
         if (maybeTicket.isPresent()) {
-            return ok(Json.toJson(maybeTicket).toString());
+            return ok(Json.toJson(maybeTicket).toString())
+                    .as("application/json");
         }
 
         return notFound("Could not find specified ticket");
@@ -94,7 +97,8 @@ public class LotteryController extends Controller {
             this.addLines(maybeTicket.get(), numberOfLines);
             this.updateTicket(maybeTicket.get());
 
-            return ok(Json.toJson(maybeTicket).toString());
+            return ok(Json.toJson(maybeTicket).toString())
+                    .as("application/json");
         }
 
         return notFound("Could not find specified ticket");
@@ -120,7 +124,8 @@ public class LotteryController extends Controller {
                 this.updateTicket(maybeTicket.get());
             }
 
-            return ok(Json.toJson(maybeTicket).toString());
+            return ok(Json.toJson(maybeTicket).toString())
+                    .as("application/json");
         }
 
         return notFound("Could not find specified ticket");
