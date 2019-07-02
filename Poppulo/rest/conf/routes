@@ -1,0 +1,21 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+# Create a ticket
+POST    /ticket/:numberOfLines      controllers.LotteryController.createTicket(numberOfLines: Int)
+
+# Return a list of tickets
+GET     /ticket                     controllers.LotteryController.allTickets
+
+# Get individual ticket
+GET     /ticket/:id                 controllers.LotteryController.findTicket(id)
+
+# Amend ticket lines
+PUT     /ticket/:id/:numberOfLines  controllers.LotteryController.addLines(id, numberOfLines: Int)
+
+# Retrieve status of ticket
+PUT     /status/:id                 controllers.LotteryController.status(id)
